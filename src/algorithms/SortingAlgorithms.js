@@ -9,7 +9,6 @@ export function mergeSortAnimations (array) {
     // clone the array (deep copy) and store it into auxArray 
     let auxArray = [...array]
     mergeSort (array, 0, array.length-1, auxArray, animations)
-    console.log(animations)
     return animations
 
 
@@ -47,13 +46,13 @@ function merge (mainArray, left, mid, right, auxArray, animations) {
         // we push this pair 2 times to color and re-color it back 
         animations.push([i,j, 'COMPARE'], [i,j, 'UNCOMPARE'])
         if ( auxArray[i] < auxArray[j]) {
-            // in this case, we animate not the COMPARING but we override kth position with auxArray[i] value 
-            animations.push([k, auxArray[i], 'OVERRIDE'])
+            // in this case, we animate not the COMPARING but we OVERWRITE kth position with auxArray[i] value 
+            animations.push([k, auxArray[i], 'OVERWRITE'])
             // we put the correct position in mainArray 
             mainArray[k++] = auxArray[i++]
         } else { 
-            // in this case, we animate not the COMPARING but we override kth position with auxArray[j] value 
-            animations.push([k, auxArray[j], 'OVERRIDE'])
+            // in this case, we animate not the COMPARING but we OVERWRITE kth position with auxArray[j] value 
+            animations.push([k, auxArray[j], 'OVERWRITE'])
             // we put the correct position in mainArray
             mainArray[k++] = auxArray[j++]
         }
@@ -64,13 +63,13 @@ function merge (mainArray, left, mid, right, auxArray, animations) {
         // meaning that the right part is finished, then the left part is unfinished
         while (i <= mid) {
             animations.push([i, i, 'COMPARE'], [i,i, 'UNCOMPARE']); 
-            animations.push([k, auxArray[i], 'OVERRIDE']);
+            animations.push([k, auxArray[i], 'OVERWRITE']);
             mainArray[k++] = auxArray[i++];
         }
     } else { 
         while (j <= right) {
             animations.push([j, j, 'COMPARE'], [j,j, 'UNCOMPARE']);
-            animations.push([k, auxArray[j], 'OVERRIDE']);
+            animations.push([k, auxArray[j], 'OVERWRITE']);
             mainArray[k++] = auxArray[j++];
         }   
     }

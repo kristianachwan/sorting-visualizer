@@ -59,11 +59,7 @@ function App() {
 
   // animating sorting
   // animating animating mergeSort 
-
-  function animateMergeSort (array) { 
-    // get the animation array 
-    const animations = mergeSortAnimations(array)
-    // To prevent spam clicking
+  const handleDisabled = () => {
     const buttons = document.querySelectorAll('.btn')
     const inputs = document.querySelectorAll('input')
     buttons.forEach(btn => {
@@ -74,6 +70,26 @@ function App() {
     inputs.forEach(input => {
       input.setAttribute('disabled', 'disabled')
     })
+  }
+
+  const handleDisabledRecover = () => {
+    const buttons = document.querySelectorAll('.btn')
+    const inputs = document.querySelectorAll('input')
+    buttons.forEach(btn => {
+      btn.classList.remove('disabled')
+      btn.removeAttribute('disabled')
+    })
+    inputs.forEach(input => {
+      input.removeAttribute('disabled', 'disabled')
+    })
+  } 
+  function animateMergeSort (array) { 
+    // get the animation array 
+    const animations = mergeSortAnimations(array)
+    handleDisabled()
+    // To prevent spam clicking
+    
+    
     // iterate through animation (either swapping or changing color)
     for ( let i = 0; i < animations.length; i++) {
         // grab the whole 'bar' in the dom 
@@ -93,7 +109,7 @@ function App() {
             bars[elementIndex2].style.backgroundColor = '#6c757d'
             }, i*animation_speed)
           
-        } else if (animations[i][2] == 'OVERRIDE'){
+        } else if (animations[i][2] == 'OVERWRITE'){
           setTimeout(() => {
             bars[elementIndex1].style.height = `${elementIndex2*0.6}vh`
             }, i*animation_speed)
@@ -101,14 +117,7 @@ function App() {
         } 
       // we make it not disabled anymore so that user can click anything again :)
       setTimeout(() => {
-        // To prevent spam clicking
-        buttons.forEach(btn => {
-          btn.classList.remove('disabled')
-          btn.removeAttribute('disabled')
-        })
-        inputs.forEach(input => {
-          input.removeAttribute('disabled', 'disabled')
-        })
+        handleDisabledRecover()
       }, animations.length*animation_speed)
      
 
