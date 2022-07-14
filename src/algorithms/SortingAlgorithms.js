@@ -26,8 +26,8 @@ function mergeSort (mainArray, left, right, auxArray, animations) {
     // get the middle index
     const mid = left + Math.floor((right-left)/2)
     
-    mergeSort(auxArray, left, mid, mainArray, animations)
-    mergeSort(auxArray, mid+1, right, mainArray, animations)
+    mergeSort(mainArray, left, mid, auxArray, animations)
+    mergeSort(mainArray, mid+1, right, auxArray, animations)
 
     merge(mainArray, left, mid, right, auxArray, animations)
 }
@@ -75,5 +75,7 @@ function merge (mainArray, left, mid, right, auxArray, animations) {
         }   
     }
     // after we do all these stuffs, we need to retreive assign the auxArray to be this somewhat correct mainArray for the next phase 
-    // auxArray = [...mainArray]
+    for (i = 0; i < auxArray.length; i++){ 
+        auxArray[i] = mainArray[i]
+    }
 }

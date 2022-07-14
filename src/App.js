@@ -63,7 +63,17 @@ function App() {
   function animateMergeSort (array) { 
     // get the animation array 
     const animations = mergeSortAnimations(array)
-  
+    // To prevent spam clicking
+    const buttons = document.querySelectorAll('.btn')
+    const inputs = document.querySelectorAll('input')
+    buttons.forEach(btn => {
+      btn.classList.add('disabled')
+      btn.setAttribute('disabled', 'disabled')
+
+    })
+    inputs.forEach(input => {
+      input.setAttribute('disabled', 'disabled')
+    })
     // iterate through animation (either swapping or changing color)
     for ( let i = 0; i < animations.length; i++) {
         // grab the whole 'bar' in the dom 
@@ -87,9 +97,20 @@ function App() {
           setTimeout(() => {
             bars[elementIndex1].style.height = `${elementIndex2*0.6}vh`
             }, i*animation_speed)
-          
-        }
-    } 
+          }
+        } 
+      // we make it not disabled anymore so that user can click anything again :)
+      setTimeout(() => {
+        // To prevent spam clicking
+        buttons.forEach(btn => {
+          btn.classList.remove('disabled')
+          btn.removeAttribute('disabled')
+        })
+        inputs.forEach(input => {
+          input.removeAttribute('disabled', 'disabled')
+        })
+      }, animations.length*animation_speed)
+     
 
 
   }
@@ -135,6 +156,6 @@ function App() {
 
 export default App;
 // Slider todo for speed :) 
-// Refactor:) 
+// Refactor:)  // kinda done for merge sort
 // Stop break feature
 // disabled buttons while doing process 
