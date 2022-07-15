@@ -24,7 +24,7 @@ General procedure:
 */ 
 function mergeSort (mainArray, left, right, auxArray, animations) { 
     // base case 
-    if (left == right) return; 
+    if (left === right) return; 
     // get the middle index
     const mid = left + Math.floor((right-left)/2)
     
@@ -110,3 +110,29 @@ export function bubbleSortAnimations (array) {
 function swap (array, idx1, idx2) { 
     [array[idx1], array[idx2]] = [array[idx2], array[idx1]]
 }
+
+// end of bubble sort 
+
+
+// insertion sort 
+
+
+export function insertionSortAnimations (array) {
+    const animations = [] 
+    for (let right = 0; right < array.length-1; right++){ 
+        let pointer = right 
+        while (array[pointer] > array[pointer+1] && pointer>=0) {  
+            animations.push([pointer, pointer+1, 'COMPARE'])
+            swap(array, pointer, pointer+1)
+            animations.push([pointer, pointer+1, 'SWAP'])
+            animations.push([pointer, pointer+1, 'UNCOMPARE'])
+            pointer--; 
+        }
+    }
+    finishing(array, animations)
+    return animations 
+
+}
+
+
+
