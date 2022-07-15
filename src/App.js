@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import MyNavbar from './components/MyNavbar';
 import Button from 'react-bootstrap/Button'
 import React from 'react'; 
-import { mergeSortAnimations, bubleSortAnimations } from './algorithms/SortingAlgorithms'; 
+import { mergeSortAnimations, bubbleSortAnimations } from './algorithms/SortingAlgorithms'; 
 // bar generator 
 function BarGenerator ({array}) { 
     return (
@@ -140,10 +140,10 @@ function App() {
   
   
 
-  // animating bubleSort 
-  function animateBubleSort (array) { 
+  // animating bubble 
+  function animateBubbleSort (array) { 
     resetColor()
-    const animations = bubleSortAnimations(array)    
+    const animations = bubbleSortAnimations(array)    
     // To prevent spam clicking
     handleDisabled()
     for (let i = 0; i < animations.length; i++) { 
@@ -211,7 +211,7 @@ function App() {
             </div>
             <div className="row justify-content-center align-items-center my-3">    
                 <Button variant="outline-secondary" className="col-2 mx-3 btn-lg">Selection Sort</Button>
-                <Button variant="outline-secondary" className="col-2 mx-3 btn-lg" onClick={() => animateBubleSort(array)}>Buble Sort</Button>
+                <Button variant="outline-secondary" className="col-2 mx-3 btn-lg" onClick={() => animateBubbleSort(array)}>Bubble Sort</Button>
                 <Button variant="outline-secondary" className="col-2 mx-3 btn-lg">Quick Sort</Button>
             </div>
         </div>

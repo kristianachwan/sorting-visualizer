@@ -9,9 +9,14 @@ export function mergeSortAnimations (array) {
     // clone the array (deep copy) and store it into auxArray 
     let auxArray = [...array]
     mergeSort (array, 0, array.length-1, auxArray, animations) 
-    animations.push(...array.map((e, i) => [i, i ,'FIX']))
+    finishing (array, animations)
     return animations
 } 
+
+function finishing (array, animations) {
+    animations.push(...array.map((e, i) => [i, i ,'FIX']))
+
+}
 /*
 General procedure: 
 1. We return every pair we compare TWICE (to color and re-color it back)
@@ -79,9 +84,9 @@ function merge (mainArray, left, mid, right, auxArray, animations) {
 
 
 
-// Buble sort algorithm 
+// Bubble sort algorithm 
 
-export function bubleSortAnimations (array) { 
+export function bubbleSortAnimations (array) { 
     const animations = [] 
     for ( let right = array.length-1; right>=0; right--) {
         for ( let left = 0; left < right; left++) { 
@@ -93,11 +98,11 @@ export function bubleSortAnimations (array) {
             animations.push([left, left+1, 'UNCOMPARE'])
 
         }
-        animations.push([right, right, 'FIX'])
 
     }
     // Debug
     // console.log(array)
+    finishing (array, animations)
     return animations
 
 }
