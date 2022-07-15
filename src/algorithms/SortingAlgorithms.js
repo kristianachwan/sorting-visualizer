@@ -1,4 +1,4 @@
-// merge sort algorithmn 
+// merge sort algorithm 
 // this function just handle the case where the length is 1 and less, and create a deep copy
 export function mergeSortAnimations (array) {
     if (array.length <=1) { 
@@ -8,11 +8,9 @@ export function mergeSortAnimations (array) {
     // main functionality 
     // clone the array (deep copy) and store it into auxArray 
     let auxArray = [...array]
-    mergeSort (array, 0, array.length-1, auxArray, animations)
+    mergeSort (array, 0, array.length-1, auxArray, animations) 
+    animations.push(...array.map((e, i) => [i, i ,'FIX']))
     return animations
-
-
-
 } 
 /*
 General procedure: 
@@ -77,4 +75,33 @@ function merge (mainArray, left, mid, right, auxArray, animations) {
     for (i = 0; i < auxArray.length; i++){ 
         auxArray[i] = mainArray[i]
     }
+}
+
+
+
+// Buble sort algorithm 
+
+export function bubleSortAnimations (array) { 
+    const animations = [] 
+    for ( let right = array.length-1; right>=0; right--) {
+        for ( let left = 0; left < right; left++) { 
+            animations.push([left, left+1, 'COMPARE'])
+            if ( array[left] >= array[left+1]) {
+                swap(array, left, left+1)
+                animations.push([left, left+1, 'SWAP'])
+            }
+            animations.push([left, left+1, 'UNCOMPARE'])
+
+        }
+        animations.push([right, right, 'FIX'])
+
+    }
+    // Debug
+    // console.log(array)
+    return animations
+
+}
+
+function swap (array, idx1, idx2) { 
+    [array[idx1], array[idx2]] = [array[idx2], array[idx1]]
 }
