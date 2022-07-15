@@ -58,7 +58,10 @@ function App() {
   // handleSubmit function to regenerate array
   const handleSubmit = (e) => {
     e.preventDefault() 
-    setArray(randomNumberArray(numberOfElements))
+    setArray(randomNumberArray(numberOfElements)) 
+    const sliderWrapper = document.querySelector('.slider-wrapper') 
+    sliderWrapper.classList.remove('d-none')
+
   } 
 
   // animationspeed 
@@ -89,7 +92,7 @@ function App() {
     })
     const inputs = document.querySelectorAll('input')
     inputs.forEach(input => 
-      input.setAttribute('disabled', 'disabled')
+      input.removeAttribute('disabled')
       )
    
 
