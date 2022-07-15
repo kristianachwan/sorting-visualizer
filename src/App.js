@@ -43,6 +43,8 @@ function App() {
   const [numberOfElements, setNumberOfElements] = useState(20)
   const [array, setArray] = useState([])   
   const [disabled, setDisabled] = useState(false)
+  const [animationSpeed, setAnimationSpeed] = useState(35); 
+
   // To generate ONCE at the start of rendering
   useEffect(() => {
     setArray(randomNumberArray(numberOfElements))
@@ -60,36 +62,36 @@ function App() {
   } 
 
   // animationspeed 
-  const [animationSpeed, setAnimationSpeed] = useState(35); 
   // 1 is placeholder value, I shall make it varying (TODO)
 
   // animating sorting
   // animating animating mergeSort 
   const handleDisabled = () => {
     const buttons = document.querySelectorAll('.btn')
-    const inputField = document.querySelector('input') 
-    console.log(inputField)
-    const sliderWrapper = document.querySelector('.slider-wrapper') 
-    sliderWrapper.classList.add('d-none')
     buttons.forEach(btn => {
       btn.classList.add('disabled')
       btn.setAttribute('disabled', 'disabled')
-
     })
-    inputField.setAttribute('disabled', 'true')
-    inputField.classList.add('disabled')
-    
+    const inputs = document.querySelectorAll('input')
+    inputs.forEach(input => 
+      input.setAttribute('disabled', 'disabled')
+      )
+   
+    const sliderWrapper = document.querySelector('.slider-wrapper') 
+    sliderWrapper.classList.add('d-none')
   }
 
   const handleDisabledRecover = () => {
     const buttons = document.querySelectorAll('.btn')
-    const inputField = document.querySelector('input') 
-    
     buttons.forEach(btn => {
       btn.classList.remove('disabled')
       btn.removeAttribute('disabled')
     })
-    inputField.setAttribute('disabled', 'disabled')
+    const inputs = document.querySelectorAll('input')
+    inputs.forEach(input => 
+      input.setAttribute('disabled', 'disabled')
+      )
+   
 
   } 
   // Animating sorting
