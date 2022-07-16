@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import MyNavbar from './components/MyNavbar';
 import Button from 'react-bootstrap/Button'
 import React from 'react'; 
-import { mergeSortAnimations, bubbleSortAnimations, insertionSortAnimations } from './algorithms/SortingAlgorithms';  
+import { mergeSortAnimations, bubbleSortAnimations, insertionSortAnimations, quickSortAnimations, selectionSortAnimations } from './algorithms/SortingAlgorithms';  
 // bar generator 
 function BarGenerator ({array}) { 
     return (
@@ -182,6 +182,11 @@ function App() {
         setTimeout(() => {
           bars[elementIndex1].style.backgroundColor = "#b7fcb7";
           }, i*animationSpeed)
+      } else if (type == 'ALREADY_SET') { 
+        setTimeout(() => {
+          bars[elementIndex1].style.backgroundColor = "#A70605";
+          console.log('asd')
+          }, i*animationSpeed)
       }
     }
     setTimeout(() => {
@@ -210,7 +215,6 @@ function App() {
           bars[elementIndex1].style.backgroundColor = '#6c757d'
           bars[elementIndex2].style.backgroundColor = '#6c757d'
           }, i*animationSpeed)
-        
       } else if (type == 'SWAP'){
         setTimeout(() => {
           const barLength1 = bars[elementIndex1].style.height
@@ -222,7 +226,87 @@ function App() {
         setTimeout(() => {
           bars[elementIndex1].style.backgroundColor = "#b7fcb7";
           }, i*animationSpeed)
-      }
+      } 
+    }
+    setTimeout(() => {
+      handleDisabledRecover()
+    }, animations.length*animationSpeed)
+  }
+
+  // animating quicksort 
+  function animateQuickSort (array) {
+    resetColor()
+    const animations = quickSortAnimations(array)    
+    // To prevent spam clicking
+    handleDisabled()
+    for (let i = 0; i < animations.length; i++) { 
+      // grab the whole 'bar' in the dom 
+      const bars = document.querySelectorAll('.bar') 
+      
+      const [elementIndex1, elementIndex2, type] = animations[i]
+      if (type == 'POINT') {
+        setTimeout(() => {
+          bars[elementIndex1].style.backgroundColor = '#c6e2ff'
+          bars[elementIndex2].style.backgroundColor = '#c6e2ff'
+          }, i*animationSpeed)
+      } else if (type == 'UNPOINT') {
+        setTimeout(() => {
+          bars[elementIndex1].style.backgroundColor = '#6c757d'
+          bars[elementIndex2].style.backgroundColor = '#6c757d'
+          }, i*animationSpeed)
+      } else if (type == 'SWAP'){
+        setTimeout(() => {
+          const barLength1 = bars[elementIndex1].style.height
+          const barLength2 = bars[elementIndex2].style.height
+          bars[elementIndex1].style.height = barLength2; 
+          bars[elementIndex2].style.height = barLength1;
+          }, i*animationSpeed)
+      } else if (type == 'FIX') { 
+        setTimeout(() => {
+          bars[elementIndex1].style.backgroundColor = "#b7fcb7";
+          }, i*animationSpeed)
+      } 
+    }
+  }
+  // end of animating quicksort 
+
+  // animating selectionSort 
+  function animateSelectionSort (array) {
+    resetColor()
+    const animations = selectionSortAnimations(array)    
+    // To prevent spam clicking
+    handleDisabled()
+    for (let i = 0; i < animations.length; i++) { 
+      // grab the whole 'bar' in the dom 
+      const bars = document.querySelectorAll('.bar') 
+      
+      const [elementIndex1, elementIndex2, type] = animations[i]
+      if (type == 'COMPARE') {
+        setTimeout(() => {
+          bars[elementIndex1].style.backgroundColor = '#c6e2ff'
+          bars[elementIndex2].style.backgroundColor = '#c6e2ff'
+          }, i*animationSpeed)
+      } else if (type == 'UNCOMPARE' || type == 'CANCEL_TENTATIVE_MIN') {
+        setTimeout(() => {
+          bars[elementIndex1].style.backgroundColor = '#6c757d'
+          bars[elementIndex2].style.backgroundColor = '#6c757d'
+          }, i*animationSpeed)
+      } else if (type == 'SWAP'){
+        setTimeout(() => {
+          const barLength1 = bars[elementIndex1].style.height
+          const barLength2 = bars[elementIndex2].style.height
+          bars[elementIndex1].style.height = barLength2; 
+          bars[elementIndex2].style.height = barLength1;
+          }, i*animationSpeed)
+      } else if (type == 'FIX') { 
+        setTimeout(() => {
+          bars[elementIndex1].style.backgroundColor = "#b7fcb7";
+          }, i*animationSpeed)
+      } else if (type == 'TENTATIVE_MIN') {
+        setTimeout(() => {
+          bars[elementIndex1].style.backgroundColor = "#A70605";
+          }, i*animationSpeed)
+      } 
     }
     setTimeout(() => {
       handleDisabledRecover()
@@ -258,9 +342,9 @@ function App() {
                 <Button variant="outline-secondary" className="col-2 mx-3 btn-lg" onClick={() => animateInsertionSort(array)}>Insertion Sort</Button>
             </div>
             <div className="row justify-content-center align-items-center my-3">    
-                <Button variant="outline-secondary" className="col-2 mx-3 btn-lg">Selection Sort</Button>
+                <Button variant="outline-secondary" className="col-2 mx-3 btn-lg" onClick={() => animateSelectionSort(array)} >Selection Sort</Button>
                 <Button variant="outline-secondary" className="col-2 mx-3 btn-lg" onClick={() => animateBubbleSort(array)}>Bubble Sort</Button>
-                <Button variant="outline-secondary" className="col-2 mx-3 btn-lg">Quick Sort</Button>
+                <Button variant="outline-secondary" className="col-2 mx-3 btn-lg" onClick={() => animateQuickSort(array)}>Quick Sort</Button>
             </div>
         </div>
     </div>
