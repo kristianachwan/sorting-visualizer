@@ -3,51 +3,21 @@ import { useState, useEffect } from 'react';
 import MyNavbar from './components/MyNavbar';
 import Button from 'react-bootstrap/Button'
 import React from 'react'; 
+import MyForm from './components/MyForm';
 import { mergeSortAnimations, bubbleSortAnimations, insertionSortAnimations, quickSortAnimations, selectionSortAnimations } from './algorithms/SortingAlgorithms';  
-// bar generator 
-function BarGenerator ({array}) { 
-    return (
-    <div className="container bar-wrapper">
-        {array && array.map(element => 
-                <React.Fragment key= {element}>
-                    <IndividualBarGenerator element={element} numberOfElements={array.length}/>
-                </React.Fragment>)}
-    </div>)
-}
-
-function IndividualBarGenerator ({element, numberOfElements}) { 
-  const height = element*60/100 + 'vh' 
-  const width = 80/numberOfElements + 'vw'
-  
-  return (
-      <div className="bar" style={{height, width, background : '#6c757d'}}>
-      </div>
-  )
-}
-
-
-function randomNumber (min, max) { 
-  return Math.random() * (max-min+1) + min}
-// Array generator
-function randomNumberArray (numberOfRandomNumber) {
-  let arr = [] 
-  for(let i = 0; i<numberOfRandomNumber; i++){
-      arr.push(randomNumber(5,100))
-  }
-  return arr  
-} 
-// end of bar generator 
+import BarGenerator from './generatorFunction/BarGenerator';
+import RandomNumberArrayGenerator from './generatorFunction/RandomNumberArrayGenerator';
 
 
 function App() {
   const [numberOfElements, setNumberOfElements] = useState(20)
   const [array, setArray] = useState([])   
   const [disabled, setDisabled] = useState(false)
-  const [animationSpeed, setAnimationSpeed] = useState(35); 
-
+  const [animationSpeed, setAnimationSpeed] = useState(65); 
+  const [sorted, setSorted] = useState(false)
   // To generate ONCE at the start of rendering
   useEffect(() => {
-    setArray(randomNumberArray(numberOfElements))
+    setArray(RandomNumberArrayGenerator(numberOfElements))
   }, [])
   const resetColor = () => {
     const bars = document.querySelectorAll('.bar')
@@ -58,7 +28,7 @@ function App() {
   // handleSubmit function to regenerate array
   const handleSubmit = (e) => {
     e.preventDefault() 
-    setArray(randomNumberArray(numberOfElements)) 
+    setArray(RandomNumberArrayGenerator(numberOfElements)) 
     const sliderWrapper = document.querySelector('.slider-wrapper') 
     sliderWrapper.classList.remove('d-none')
 
@@ -100,6 +70,7 @@ function App() {
   // Animating sorting
   // Animating mergeSort
   function animateMergeSort (array) {  
+    setSorted(false)
     resetColor()
     // get the animation array 
     const animations = mergeSortAnimations(array)
@@ -139,6 +110,7 @@ function App() {
       // we make it not disabled anymore so that user can click anything again :)
       setTimeout(() => {
         handleDisabledRecover()
+        setSorted(true)
       }, animations.length*animationSpeed)
      
 
@@ -267,6 +239,9 @@ function App() {
           }, i*animationSpeed)
       } 
     }
+    setTimeout(() => {
+      handleDisabledRecover()
+    }, animations.length*animationSpeed)
   }
   // end of animating quicksort 
 
@@ -309,42 +284,28 @@ function App() {
       } 
     }
     setTimeout(() => {
-      handleDisabledRecover()
-    }, animations.length*animationSpeed)
+      handleDisabledRecover() 
+    }, animations.length*animationSpeed) 
+    
   }
   // end of animating sorting
   return (
     <div className="App">
-      <MyNavbar disabled={disabled} animationSpeed={animationSpeed} setAnimationSpeed={setAnimationSpeed} randomNumberArray={randomNumberArray} setArray={setArray} numberOfElements={numberOfElements} handleSubmit={handleSubmit}/> 
+      <MyNavbar disabled={disabled} animationSpeed={animationSpeed} setAnimationSpeed={setAnimationSpeed} RandomNumberArrayGenerator={RandomNumberArrayGenerator} setArray={setArray} numberOfElements={numberOfElements} handleSubmit={handleSubmit}/> 
       {/* Input field */}
-      <form className="mt-3" onSubmit={handleSubmit}>
-        <label>
-          <span className="lead">Number of elements: </span>  
-          <input 
-            value={numberOfElements} 
-            onChange={(e) => setNumberOfElements(e.target.value)} 
-            className="rounded p-2 mx-3" 
-            type="number" 
-            min={5} 
-            max={100}
-          />
-
-        </label>
-      </form>
+      <MyForm handleSubmit={handleSubmit} setNumberOfElements={setNumberOfElements} numberOfElements={numberOfElements}/>
       {/* Bars */}
 
       <BarGenerator array={array}/>
 
       {/* Button groups */}
-      <div>
-            <div className="row justify-content-center align-items-center mt-4">    
-                <Button variant="outline-secondary" className="col-2 mx-3 btn-lg" onClick={() => animateMergeSort(array)}>Merge Sort</Button>
-                <Button variant="outline-secondary" className="col-2 mx-3 btn-lg" onClick={() => animateInsertionSort(array)}>Insertion Sort</Button>
-            </div>
-            <div className="row justify-content-center align-items-center my-3">    
-                <Button variant="outline-secondary" className="col-2 mx-3 btn-lg" onClick={() => animateSelectionSort(array)} >Selection Sort</Button>
-                <Button variant="outline-secondary" className="col-2 mx-3 btn-lg" onClick={() => animateBubbleSort(array)}>Bubble Sort</Button>
-                <Button variant="outline-secondary" className="col-2 mx-3 btn-lg" onClick={() => animateQuickSort(array)}>Quick Sort</Button>
+      <div> 
+            <div className="d-flex button-group align-items-center justify-content-center mt-3">    
+                <Button variant="outline-secondary" className="col-2 mx-3 mb-3 btn-sm" onClick={() => animateMergeSort(array)}>Merge Sort</Button>
+                <Button variant="outline-secondary" className="col-2 mx-3 mb-3 btn-sm" onClick={() => animateInsertionSort(array)}>Insertion Sort</Button>
+                <Button variant="outline-secondary" className="col-2 mx-3 mb-3 btn-sm" onClick={() => animateSelectionSort(array)} >Selection Sort</Button>
+                <Button variant="outline-secondary" className="col-2 mx-3 mb-3 btn-sm" onClick={() => animateBubbleSort(array)}>Bubble Sort</Button>
+                <Button variant="outline-secondary" className="col-2 mx-3 mb-3 btn-sm" onClick={() => animateQuickSort(array)}>Quick Sort</Button>
             </div>
         </div>
     </div>
