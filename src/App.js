@@ -4,10 +4,13 @@ import MyNavbar from './components/MyNavbar';
 import Button from 'react-bootstrap/Button'
 import React from 'react'; 
 import MyForm from './components/MyForm';
-import { mergeSortAnimations, bubbleSortAnimations, insertionSortAnimations, quickSortAnimations, selectionSortAnimations } from './algorithms/SortingAlgorithms';  
 import BarGenerator from './generatorFunction/BarGenerator';
 import RandomNumberArrayGenerator from './generatorFunction/RandomNumberArrayGenerator';
-
+import { mergeSortAnimations } from './algorithms/mergeSort';
+import { bubbleSortAnimations } from './algorithms/bubleSort'; 
+import { quickSortAnimations } from './algorithms/quickSort';
+import { selectionSortAnimations } from './algorithms/selectionSort';
+import { insertionSortAnimations } from './algorithms/insertionSort'; 
 
 function App() {
   const numberOfElements = useRef(20) 
