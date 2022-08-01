@@ -1,7 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
 export default function MyForm({ handleSubmit, numberOfElements}) {
-  console.log(numberOfElements.current)
   return (
     <form className="mt-3" onSubmit={handleSubmit}>
         <label>

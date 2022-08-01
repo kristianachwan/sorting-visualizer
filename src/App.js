@@ -156,7 +156,6 @@ function App() {
       } else if (type == 'ALREADY_SET') { 
         setTimeout(() => {
           bars[elementIndex1].style.backgroundColor = "#A70605";
-          console.log('asd')
           }, i*animationSpeed)
       }
     }
