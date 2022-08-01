@@ -1,5 +1,5 @@
 import './App.css'; 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import MyNavbar from './components/MyNavbar';
 import Button from 'react-bootstrap/Button'
 import React from 'react'; 
@@ -10,14 +10,14 @@ import RandomNumberArrayGenerator from './generatorFunction/RandomNumberArrayGen
 
 
 function App() {
-  const [numberOfElements, setNumberOfElements] = useState(20)
+  const numberOfElements = useRef(20) 
   const [array, setArray] = useState([])   
   const [disabled, setDisabled] = useState(false)
   const [animationSpeed, setAnimationSpeed] = useState(65); 
-  const [sorted, setSorted] = useState(false)
   // To generate ONCE at the start of rendering
+
   useEffect(() => {
-    setArray(RandomNumberArrayGenerator(numberOfElements))
+    setArray(RandomNumberArrayGenerator(numberOfElements.current))
   }, [])
   const resetColor = () => {
     const bars = document.querySelectorAll('.bar')
@@ -28,7 +28,7 @@ function App() {
   // handleSubmit function to regenerate array
   const handleSubmit = (e) => {
     e.preventDefault() 
-    setArray(RandomNumberArrayGenerator(numberOfElements)) 
+    setArray(RandomNumberArrayGenerator(numberOfElements.current)) 
     const sliderWrapper = document.querySelector('.slider-wrapper') 
     sliderWrapper.classList.remove('d-none')
 
@@ -70,7 +70,6 @@ function App() {
   // Animating sorting
   // Animating mergeSort
   function animateMergeSort (array) {  
-    setSorted(false)
     resetColor()
     // get the animation array 
     const animations = mergeSortAnimations(array)
@@ -109,10 +108,10 @@ function App() {
         } 
       // we make it not disabled anymore so that user can click anything again :)
       setTimeout(() => {
-        handleDisabledRecover()
-        setSorted(true)
+        handleDisabledRecover()  
+
       }, animations.length*animationSpeed)
-     
+
 
 
   }
@@ -291,9 +290,9 @@ function App() {
   // end of animating sorting
   return (
     <div className="App">
-      <MyNavbar disabled={disabled} animationSpeed={animationSpeed} setAnimationSpeed={setAnimationSpeed} RandomNumberArrayGenerator={RandomNumberArrayGenerator} setArray={setArray} numberOfElements={numberOfElements} handleSubmit={handleSubmit}/> 
+      <MyNavbar disabled={disabled} animationSpeed={animationSpeed} setAnimationSpeed={setAnimationSpeed} RandomNumberArrayGenerator={RandomNumberArrayGenerator} setArray={setArray} numberOfElements={numberOfElements.current} handleSubmit={handleSubmit}/> 
       {/* Input field */}
-      <MyForm handleSubmit={handleSubmit} setNumberOfElements={setNumberOfElements} numberOfElements={numberOfElements}/>
+      <MyForm handleSubmit={handleSubmit} numberOfElements={numberOfElements}/>
       {/* Bars */}
 
       <BarGenerator array={array}/>

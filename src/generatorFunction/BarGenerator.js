@@ -2,7 +2,11 @@ import React from "react"
 export default function BarGenerator ({array}) { 
     return (
     <div className="container bar-wrapper">
-        {array && array.map(element => 
+        {(array && [...array].sort((a,b) => a-b) !== array) && array.map(element => 
+                <React.Fragment key= {element}>
+                    <IndividualBarGenerator element={element} numberOfElements={array.length}/>
+                </React.Fragment>)}
+        {(array && [...array].sort((a,b) => a-b) == array) && array.sort((a,b)=> a-b).map(element => 
                 <React.Fragment key= {element}>
                     <IndividualBarGenerator element={element} numberOfElements={array.length}/>
                 </React.Fragment>)}
